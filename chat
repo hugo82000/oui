@@ -1,62 +1,36 @@
-Chat.JAVA
+HelloServlet.JAVA
 
-@WebServlet("/chat")
-public class Chat extends HttpServlet {
-	private static final long serialVersionUID = 197811968639586823L;
-	private static StringBuffer chatContent;
-	private static StringBuffer chatContent2;
-	
-	public void init(ServletConfig config) throws ServletException {
+package pr.tp.web.example;
 
-		//Initialiser le StringBuffer
-		chatContent = new StringBuffer();
-		chatContent2 = new StringBuffer();
-		chatContent.append("Bienvenue sur le chat").append("\n");
-		chatContent.append("Soyez polis").append("\n");
-		
-	}
-	// doGet() returns the next message. It blocks until there is one.
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet(name = "hello", urlPatterns = { "/hello" })
+public class HelloServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
 		PrintWriter out = response.getWriter();
-		
-		response.setContentType("text/html");
 		out.println("<html>");
-		out.println("<head><title>MaPage</title></head>");
+		out.println("<head><title>Hello World</title></head>");
 		out.println("<body>");
-		
-		
-		out.println("<pre>");
-		out.println(chatContent);
-		out.println("</pre>");
-		
-		out.println("<pre>");
-		out.println("<form name=\"chatForm\" action=\"chat\" method=\"post\">");
-		out.println("<input type=\"text\" name=\"ligne\" value=\"\"/>");
-		out.println("<input type=\"submit\" name=\"action\" value=\"submit\"/>");
-		out.println("<input type=\"submit\" name=\"action\" value=\"refresh\"/>");
-		out.println("</form>");
-		out.println("</pre>");
-		
-		out.println("<pre>");
-		out.println(chatContent2);
-		out.println("</pre>");
-		
-		out.println("<body>");
-		out.println("</html>");
-	
-	}
-	//accepts a new message and broadcasts it to all
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
-		
-		String action = request.getParameter("action");
-		if (action != null && action.equals("submit")) {
-			chatContent2.append(request.getParameter("ligne")).append("\n");
+		String nom = request.getParameter("nom");
+		if (nom != null) {
+			out.println("Hello " + nom);
+		} else {
+			out.println("Hello World");
 		}
 
-		this.doGet(request, response);
+		out.println("</body>");
+		out.println("</html>");
 	}
+
 }
