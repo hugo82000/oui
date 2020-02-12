@@ -1,3 +1,5 @@
+Chat.JAVA
+
 @WebServlet("/chat")
 public class Chat extends HttpServlet {
 	private static final long serialVersionUID = 197811968639586823L;
@@ -5,23 +7,30 @@ public class Chat extends HttpServlet {
 	private static StringBuffer chatContent2;
 	
 	public void init(ServletConfig config) throws ServletException {
+
 		//Initialiser le StringBuffer
 		chatContent = new StringBuffer();
 		chatContent2 = new StringBuffer();
 		chatContent.append("Bienvenue sur le chat").append("\n");
 		chatContent.append("Soyez polis").append("\n");
+		
 	}
 	// doGet() returns the next message. It blocks until there is one.
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		PrintWriter out = response.getWriter();
+		
 		response.setContentType("text/html");
 		out.println("<html>");
 		out.println("<head><title>MaPage</title></head>");
 		out.println("<body>");
+		
+		
 		out.println("<pre>");
 		out.println(chatContent);
 		out.println("</pre>");
+		
 		out.println("<pre>");
 		out.println("<form name=\"chatForm\" action=\"chat\" method=\"post\">");
 		out.println("<input type=\"text\" name=\"ligne\" value=\"\"/>");
@@ -29,20 +38,25 @@ public class Chat extends HttpServlet {
 		out.println("<input type=\"submit\" name=\"action\" value=\"refresh\"/>");
 		out.println("</form>");
 		out.println("</pre>");
+		
 		out.println("<pre>");
 		out.println(chatContent2);
 		out.println("</pre>");
+		
 		out.println("<body>");
 		out.println("</html>");
+	
 	}
 	//accepts a new message and broadcasts it to all
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
+		
 		String action = request.getParameter("action");
 		if (action != null && action.equals("submit")) {
 			chatContent2.append(request.getParameter("ligne")).append("\n");
 		}
+
 		this.doGet(request, response);
 	}
 }
